@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Characters\MonsterFactory">
       <UniqueIdentifier>{e5f9c687-e4cf-4d99-8cea-1bec0112542d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\StoryTelling">
+      <UniqueIdentifier>{ef3f30d2-f220-4f9d-a24b-25c829b8aa3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StoryTelling">
+      <UniqueIdentifier>{9ec55baa-2c6b-45dd-9a1e-a2bf5a65e24a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,9 @@
     <ClCompile Include="MonsterFactory.cpp">
       <Filter>Source Files\Characters\MonsterFactory</Filter>
     </ClCompile>
+    <ClCompile Include="Story.cpp">
+      <Filter>Source Files\StoryTelling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -58,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="MonsterFactory.h">
       <Filter>Header Files\Characters\MonsterFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Story.h">
+      <Filter>Header Files\StoryTelling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

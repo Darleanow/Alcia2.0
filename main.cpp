@@ -3,6 +3,7 @@
 
 #include "Hero.h"
 #include "MonsterFactory.h"
+#include "Story.h"
 #include <iostream>
 
 int main()
@@ -19,4 +20,12 @@ int main()
     {
         std::cout << elem << std::endl;
     }
+
+    std::cout << std::endl << std::endl;
+
+    Story story;
+    story.output_story_part();
+
+    std::cout << std::endl;
+    story.output_story_part();
 }

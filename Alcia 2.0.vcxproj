@@ -212,6 +212,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="MonsterFactory.cpp" />
+    <ClCompile Include="Story.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseMonster.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="Hero.h" />
     <ClInclude Include="MonsterFactory.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Story.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Alcia 2.0.rc" />

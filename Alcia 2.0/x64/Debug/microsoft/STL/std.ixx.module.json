@@ -1,0 +1,21 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Alcia 2.0\\x64\\Debug\\microsoft/STL\\std.ixx.obj",
+            "outputs": [
+                "Alcia 2.0\\x64\\Debug\\microsoft/STL\\",
+                "C:\\Users\\ehugo\\source\\repos\\Alcia 2.0\\Alcia 2.0\\x64\\Debug\\microsoft\\STL\\std.ixx.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "std",
+                    "source-path": "c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.39.33519\\modules\\std.ixx",
+                    "is-interface": true
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

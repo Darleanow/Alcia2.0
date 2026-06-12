@@ -50,7 +50,8 @@ jobs:
       - name: Create Conan profile
         run: |
           mkdir -p .conan
-          printf '[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=13\nos=Linux\n' > .conan/profile
+          GCC_VER=$(gcc --version | grep -oP '\d+' | head -1)
+          printf '[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=%s\nos=Linux\n' "$GCC_VER" > .conan/profile
 
 
       - name: Conan install
@@ -61,7 +62,9 @@ jobs:
             --profile:build=.conan/profile \
             --output-folder=build/bench \
             --build=missing \
-            -s build_type=Release
+            -s build_type=Release \
+            -o with_benchmarks=True \
+            -o with_tests=False
           rm -f CMakeUserPresets.json
 
       - run: cmake --preset bench

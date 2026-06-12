@@ -10,7 +10,7 @@ using namespace alcia::game;
 TEST(World, StartRoomExists) {
     World w;
     ASSERT_NE(w.currentRoom(), nullptr);
-    EXPECT_EQ(w.currentRoom()->id, "start");
+    EXPECT_EQ(w.currentRoom()->m_id, "start");
 }
 
 TEST(World, MoveValidDirection) {

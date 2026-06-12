@@ -10,7 +10,7 @@ jobs:
   codespell:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
       - uses: codespell-project/actions-codespell@v2

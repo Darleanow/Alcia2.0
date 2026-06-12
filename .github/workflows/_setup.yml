@@ -20,7 +20,7 @@ jobs:
   setup:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
@@ -41,17 +41,17 @@ jobs:
           arch:    gcc_64
           cache:   true
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.conan2/p
           key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py', '.conan/profile') }}
           restore-keys: conan-${{ runner.os }}-
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.cache/ccache
           key: ccache-${{ runner.os }}-${{ inputs.preset }}-${{ github.sha }}

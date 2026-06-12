@@ -76,6 +76,8 @@ jobs:
       - run: cmake --preset ci
       - run: cmake --build --preset ci --parallel
       - run: ctest --preset ci --output-on-failure -j4
+        env:
+          QT_QPA_PLATFORM: offscreen
 
       - name: Upload test results
         if: always()
@@ -165,3 +167,5 @@ jobs:
       - run: cmake --preset ${{ matrix.preset }}
       - run: cmake --build --preset ${{ matrix.preset }} --parallel
       - run: ctest --preset ${{ matrix.preset }} --output-on-failure -j4
+        env:
+          QT_QPA_PLATFORM: offscreen

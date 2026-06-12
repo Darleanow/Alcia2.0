@@ -3,7 +3,7 @@ PROJECT_NUMBER         = @PROJECT_VERSION@
 PROJECT_BRIEF          = "A text-based RPG built with Qt 6"
 PROJECT_LOGO           = @CMAKE_SOURCE_DIR@/docs/assets/logo.png
 
-OUTPUT_DIRECTORY       = @CMAKE_BINARY_DIR@/docs
+OUTPUT_DIRECTORY       = @CMAKE_BINARY_DIR@
 CREATE_SUBDIRS         = YES
 ALLOW_UNICODE_NAMES    = YES
 OUTPUT_LANGUAGE        = English

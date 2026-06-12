@@ -4,6 +4,7 @@
 #include "Alcia/core/Engine.hpp"
 
 #include <QMainWindow>
+#include <QObject>
 #include <QTextEdit>
 #include <QVBoxLayout>
 #include <QWidget>

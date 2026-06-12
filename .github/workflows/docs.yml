@@ -68,7 +68,8 @@ jobs:
             --profile:build=.conan/profile \
             --output-folder=build/docs \
             --build=missing \
-            -s build_type=Debug
+            -s build_type=Release \
+            -o with_tests=False
           rm -f CMakeUserPresets.json
 
       - run: cmake --preset docs

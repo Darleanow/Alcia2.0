@@ -35,13 +35,17 @@ CheckOptions:
     value: camelBack
   - key:   readability-identifier-naming.VariableCase
     value: camelBack
+  - key:   readability-identifier-naming.LocalConstantCase
+    value: camelBack
   - key:   readability-identifier-naming.ParameterCase
     value: camelBack
   - key:   readability-identifier-naming.MemberCase
     value: camelBack
   - key:   readability-identifier-naming.MemberPrefix
     value: 'm_'
-  - key:   readability-identifier-naming.ConstantCase
+  - key:   readability-identifier-naming.ConstexprVariableCase
+    value: UPPER_CASE
+  - key:   readability-identifier-naming.StaticConstantCase
     value: UPPER_CASE
   - key:   readability-identifier-naming.EnumConstantCase
     value: CamelCase

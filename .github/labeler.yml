@@ -1,0 +1,38 @@
+build:
+  - changed-files:
+    - any-glob-to-any-file:
+      - CMakeLists.txt
+      - "**/CMakeLists.txt"
+      - cmake/**
+      - conanfile.py
+      - CMakePresets.json
+
+ci:
+  - changed-files:
+    - any-glob-to-any-file:
+      - .github/workflows/**
+
+docs:
+  - changed-files:
+    - any-glob-to-any-file:
+      - docs/**
+      - "**/*.md"
+
+tests:
+  - changed-files:
+    - any-glob-to-any-file:
+      - tests/**
+
+source:
+  - changed-files:
+    - any-glob-to-any-file:
+      - src/**
+      - include/**
+
+config:
+  - changed-files:
+    - any-glob-to-any-file:
+      - .clang-tidy
+      - .clang-format
+      - .editorconfig
+      - .pre-commit-config.yaml

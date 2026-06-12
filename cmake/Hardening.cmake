@@ -1,0 +1,10 @@
+function(alcia_enable_hardening target)
+  if(MSVC)
+    target_compile_options(${target} PRIVATE /GS /DYNAMICBASE)
+    target_link_options(${target} PRIVATE /NXCOMPAT /HIGHENTROPYVA)
+    return()
+  endif()
+
+  target_compile_options(${target} PRIVATE -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fPIE)
+  target_link_options(${target} PRIVATE -pie -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack)
+endfunction()

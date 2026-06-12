@@ -1,0 +1,114 @@
+name: Binary Size
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  QT_VERSION: "6.11.0"
+
+jobs:
+  size:
+    name: Binary size check
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            ninja-build \
+            libgl1-mesa-dev libvulkan-dev libxkbcommon-dev
+
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          cache: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.conan2/p
+          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py', '.conan/profile') }}
+          restore-keys: conan-${{ runner.os }}-
+
+      - run: pip install "conan>=2.0"
+
+      - name: Build PR branch
+        run: |
+          rm -f CMakeUserPresets.json
+          conan install . \
+            --profile:host=.conan/profile \
+            --profile:build=.conan/profile \
+            --output-folder=build/release \
+            --build=missing \
+            -s build_type=Release
+          rm -f CMakeUserPresets.json
+          cmake --preset release
+          cmake --build --preset release --parallel
+
+      - name: Measure size
+        id: pr_size
+        run: |
+          SIZE=$(stat -c%s build/release/src/Alcia 2>/dev/null || stat -f%z build/release/src/Alcia)
+          echo "bytes=$SIZE" >> "$GITHUB_OUTPUT"
+          echo "human=$(numfmt --to=iec $SIZE)" >> "$GITHUB_OUTPUT"
+
+      - name: Build base branch
+        run: |
+          git stash || true
+          git checkout ${{ github.base_ref }}
+          rm -f CMakeUserPresets.json
+          conan install . \
+            --profile:host=.conan/profile \
+            --profile:build=.conan/profile \
+            --output-folder=build/release-base \
+            --build=missing \
+            -s build_type=Release
+          rm -f CMakeUserPresets.json
+          cmake -S . -B build/release-base --preset release -DCMAKE_BINARY_DIR=build/release-base || \
+            cmake --preset release -DCMAKE_BINARY_DIR=build/release-base
+          cmake --build build/release-base --parallel
+          git checkout -
+
+      - name: Measure base size
+        id: base_size
+        run: |
+          SIZE=$(stat -c%s build/release-base/src/Alcia 2>/dev/null || echo 0)
+          echo "bytes=$SIZE" >> "$GITHUB_OUTPUT"
+          echo "human=$(numfmt --to=iec $SIZE 2>/dev/null || echo unknown)" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr  = ${{ steps.pr_size.outputs.bytes }};
+            const base = ${{ steps.base_size.outputs.bytes }};
+            const diff = pr - base;
+            const sign = diff >= 0 ? '+' : '';
+            const emoji = Math.abs(diff) > 50000 ? '⚠️' : '✅';
+            const body = [
+              `${emoji} **Binary size**`,
+              `| | Size |`,
+              `|---|---|`,
+              `| base | ${{ steps.base_size.outputs.human }} |`,
+              `| PR   | ${{ steps.pr_size.outputs.human }} |`,
+              `| diff | ${sign}${diff} bytes |`,
+            ].join('\n');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });

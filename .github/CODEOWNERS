@@ -1,0 +1,7 @@
+* @your-org/alcia-maintainers
+
+/.github/         @your-org/alcia-maintainers
+/cmake/           @your-org/alcia-maintainers
+/CMakeLists.txt   @your-org/alcia-maintainers
+/conanfile.py     @your-org/alcia-maintainers
+/CMakePresets.json @your-org/alcia-maintainers

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="$langISO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$title</title>
+  $treeview
+  $search
+  $mathjax
+  $darkmode
+  <link href="$relpath^tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="$relpath^jquery.js"></script>
+  <script type="text/javascript" src="$relpath^dynsections.js"></script>
+  <script type="text/javascript" src="$relpath^doxygen-awesome-darkmode-toggle.js"></script>
+  <script type="text/javascript" src="$relpath^doxygen-awesome-fragment-copy-button.js"></script>
+  <script type="text/javascript" src="$relpath^doxygen-awesome-paragraph-link.js"></script>
+  <script type="text/javascript" src="$relpath^doxygen-awesome-interactive-toc.js"></script>
+  $extrastylesheet
+</head>
+<body>
+  <script type="text/javascript">
+    DoxygenAwesomeDarkModeToggle.init();
+    DoxygenAwesomeFragmentCopyButton.init();
+    DoxygenAwesomeParagraphLink.init();
+    DoxygenAwesomeInteractiveToc.init();
+  </script>
+  <!--BEGIN PROJECT_NAME-->
+  <div id="top">
+    <div id="titlearea">
+      <table cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr id="projectrow">
+            <!--BEGIN PROJECT_LOGO-->
+            <td id="projectlogo"><img alt="Logo" src="$relpath^$projectlogo"/></td>
+            <!--END PROJECT_LOGO-->
+            <td id="projectalign">
+              <div id="projectname">
+                $projectname
+                <!--BEGIN PROJECT_NUMBER-->
+                <span id="projectnumber">&#160;$projectnumber</span>
+                <!--END PROJECT_NUMBER-->
+              </div>
+              <!--BEGIN PROJECT_BRIEF-->
+              <div id="projectbrief">$projectbrief</div>
+              <!--END PROJECT_BRIEF-->
+            </td>
+            <td>$searchbox</td>
+            <td><button class="DarkModeToggle" onclick="DoxygenAwesomeDarkModeToggle.toggle()">☀</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--END PROJECT_NAME-->
+  $searchresults
+  $treeview
+  <div id="doc-content">

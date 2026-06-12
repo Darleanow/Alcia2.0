@@ -1,0 +1,61 @@
+---
+Language:        Cpp
+BasedOnStyle:    LLVM
+
+IndentWidth:             4
+TabWidth:                4
+UseTab:                  Never
+AccessModifierOffset:    -4
+IndentCaseLabels:        true
+IndentPPDirectives:      BeforeHash
+NamespaceIndentation:    None
+
+ColumnLimit:             100
+
+BreakBeforeBraces:       Attach
+AllowShortFunctionsOnASingleLine:    InlineOnly
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine:        false
+AllowShortBlocksOnASingleLine:       Never
+
+SortIncludes:    CaseSensitive
+IncludeBlocks:   Regroup
+IncludeCategories:
+  - Regex:    '^"Alcia/'
+    Priority: 1
+  - Regex:    '^<Q[A-Z]'
+    Priority: 2
+  - Regex:    '^<'
+    Priority: 3
+
+AlignConsecutiveAssignments:
+  Enabled:          true
+  AcrossEmptyLines: false
+  AcrossComments:   false
+AlignConsecutiveDeclarations:
+  Enabled: false
+AlignTrailingComments:
+  Kind: Always
+
+PointerAlignment:   Left
+ReferenceAlignment: Left
+
+SpaceBeforeParens:         ControlStatements
+SpacesInAngles:            Never
+SpacesInContainerLiterals: false
+
+AllowAllParametersOfDeclarationOnNextLine: true
+BinPackParameters:                 false
+BinPackArguments:                  false
+AlwaysBreakTemplateDeclarations:   Yes
+BreakConstructorInitializers:      BeforeColon
+BreakInheritanceList:              BeforeColon
+PackConstructorInitializers:       NextLine
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth:           4
+
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyExcessCharacter:               1000000
+
+Standard: Latest
+...

@@ -1,0 +1,31 @@
+/* Alcia custom Doxygen Awesome overrides */
+
+:root {
+  --primary-color:           #7c5cbf;
+  --primary-dark-color:      #5a3fa0;
+  --primary-light-color:     #a98bdf;
+  --page-background-color:   #0d1117;
+  --page-foreground-color:   #e6edf3;
+  --separator-color:         #30363d;
+  --side-nav-background:     #161b22;
+  --code-background:         #161b22;
+
+  --font-family:             'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-family-monospace:   'Cascadia Code', 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Project name styling */
+#projectname {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--primary-light-color);
+}
+
+/* Make callout boxes look nicer */
+dl.note,
+dl.warning,
+dl.attention {
+  border-radius: 6px;
+  border-left-width: 4px;
+}

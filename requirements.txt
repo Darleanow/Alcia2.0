@@ -1,0 +1,5 @@
+conan>=2.0
+aqtinstall>=3.0
+pre-commit>=3.0
+codespell>=2.3
+gitlint>=0.19

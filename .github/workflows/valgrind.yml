@@ -1,0 +1,75 @@
+name: Valgrind
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  QT_VERSION: "6.11.0"
+
+jobs:
+  memcheck:
+    name: Valgrind memcheck
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            ninja-build valgrind \
+            libgl1-mesa-dev libvulkan-dev libxkbcommon-dev
+
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          cache: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.conan2/p
+          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py', '.conan/profile') }}
+          restore-keys: conan-${{ runner.os }}-
+
+      - run: pip install "conan>=2.0"
+
+      - name: Conan install
+        run: |
+          rm -f CMakeUserPresets.json
+          conan install . \
+            --profile:host=.conan/profile \
+            --profile:build=.conan/profile \
+            --output-folder=build/debug \
+            --build=missing \
+            -s build_type=Debug
+          rm -f CMakeUserPresets.json
+
+      - run: cmake --preset debug
+      - run: cmake --build --preset debug --parallel
+
+      - name: Run tests under Valgrind
+        run: |
+          ctest --preset debug \
+            --output-on-failure \
+            -L unit \
+            --overwrite MemoryCheckCommand=$(which valgrind) \
+            --overwrite MemoryCheckCommandOptions="--leak-check=full --error-exitcode=1 --suppressions=/usr/lib/valgrind/qt6.supp" \
+            -T memcheck 2>&1 | tee valgrind-output.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: valgrind-report
+          path: |
+            valgrind-output.txt
+            build/debug/Testing/

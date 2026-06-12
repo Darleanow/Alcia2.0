@@ -1,0 +1,3 @@
+[codespell]
+skip = "*.json,*.sum,build,.conan,*.html,*.css"
+ignore-words-list = "uint,inout"

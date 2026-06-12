@@ -1,0 +1,225 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 28, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "installDir": "${sourceDir}/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_PREFIX_PATH": "$env{HOME}/Qt/6.11.0/gcc_64",
+        "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/ConanProvider.cmake"
+      }
+    },
+    {
+      "name": "base-debug",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ALCIA_ENABLE_TESTS": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/${presetName}/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "inherits": "base-debug"
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ALCIA_ENABLE_TESTS": "OFF",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/release/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "relwithdebinfo",
+      "displayName": "RelWithDebInfo",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "ALCIA_ENABLE_TESTS": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/relwithdebinfo/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "asan",
+      "displayName": "ASan + UBSan",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_SANITIZERS": "ON",
+        "ALCIA_SANITIZER_TYPE": "address",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/asan/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "tsan",
+      "displayName": "ThreadSanitizer",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_SANITIZERS": "ON",
+        "ALCIA_SANITIZER_TYPE": "thread",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/tsan/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "msan",
+      "displayName": "MemorySanitizer",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_SANITIZERS": "ON",
+        "ALCIA_SANITIZER_TYPE": "memory",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/msan/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "coverage",
+      "displayName": "Coverage (lcov)",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_COVERAGE": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/coverage/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "tidy",
+      "displayName": "Clang-Tidy",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_CLANG_TIDY": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/tidy/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "fuzz",
+      "displayName": "Fuzzing (libFuzzer)",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_FUZZING": "ON",
+        "CMAKE_CXX_FLAGS": "-fsanitize=fuzzer-no-link,address",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/fuzz/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "docs",
+      "displayName": "Documentation",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ALCIA_ENABLE_TESTS": "OFF",
+        "ALCIA_ENABLE_DOXYGEN": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/docs/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "ci",
+      "displayName": "CI (Linux)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ALCIA_ENABLE_TESTS": "ON",
+        "ALCIA_ENABLE_CLANG_TIDY": "ON",
+        "ALCIA_ENABLE_HARDENING": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/ci/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "package",
+      "displayName": "Package (Release + CPack)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ALCIA_ENABLE_TESTS": "OFF",
+        "ALCIA_ENABLE_HARDENING": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/package/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "cppcheck",
+      "displayName": "cppcheck",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_CPPCHECK": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/cppcheck/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "iwyu",
+      "displayName": "include-what-you-use",
+      "inherits": "base-debug",
+      "cacheVariables": {
+        "ALCIA_ENABLE_IWYU": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/iwyu/generators/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "bench",
+      "displayName": "Benchmarks",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ALCIA_ENABLE_TESTS": "OFF",
+        "ALCIA_ENABLE_BENCHMARKS": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/bench/generators/conan_toolchain.cmake"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "debug",        "configurePreset": "debug" },
+    { "name": "release",      "configurePreset": "release" },
+    { "name": "relwithdebinfo","configurePreset": "relwithdebinfo" },
+    { "name": "asan",         "configurePreset": "asan" },
+    { "name": "tsan",         "configurePreset": "tsan" },
+    { "name": "msan",         "configurePreset": "msan" },
+    { "name": "coverage",     "configurePreset": "coverage" },
+    { "name": "tidy",         "configurePreset": "tidy" },
+    { "name": "cppcheck",     "configurePreset": "cppcheck" },
+    { "name": "iwyu",         "configurePreset": "iwyu" },
+    { "name": "bench",        "configurePreset": "bench" },
+    { "name": "fuzz",         "configurePreset": "fuzz" },
+    { "name": "docs",         "configurePreset": "docs" },
+    { "name": "package",      "configurePreset": "package" },
+    { "name": "ci",           "configurePreset": "ci" }
+  ],
+  "testPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "output": { "outputOnFailure": true },
+      "execution": { "stopOnFailure": false }
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "msan",
+      "configurePreset": "msan",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "coverage",
+      "configurePreset": "coverage",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "ci",
+      "configurePreset": "ci",
+      "output": { "outputOnFailure": true },
+      "execution": { "stopOnFailure": false }
+    }
+  ]
+}

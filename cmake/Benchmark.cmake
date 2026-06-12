@@ -1,0 +1,6 @@
+function(alcia_setup_benchmarks)
+  find_package(benchmark REQUIRED)
+  add_executable(AlciaBenchmarks ${ARGN})
+  target_link_libraries(AlciaBenchmarks PRIVATE AlciaLib benchmark::benchmark_main)
+  alcia_set_compile_options(AlciaBenchmarks)
+endfunction()

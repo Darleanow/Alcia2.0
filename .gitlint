@@ -1,0 +1,7 @@
+[general]
+min-line-length = 10
+max-line-length = 100
+ignore-fixup-commits = true
+
+[title-conventional-commits]
+conventional-commits = feat,fix,refactor,perf,test,docs,build,ci,chore

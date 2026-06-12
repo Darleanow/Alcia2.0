@@ -1,0 +1,80 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 8 * * 1"
+
+env:
+  QT_VERSION: "6.11.0"
+
+jobs:
+  analyze:
+    name: CodeQL Analysis
+    runs-on: ubuntu-24.04
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            ninja-build \
+            libgl1-mesa-dev libvulkan-dev libxkbcommon-dev
+
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: linux
+          target: desktop
+          arch: gcc_64
+          cache: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.conan2/p
+          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py', '.conan/profile') }}
+          restore-keys: conan-${{ runner.os }}-
+
+      - run: pip install "conan>=2.0"
+
+      - name: Conan install
+        run: |
+          rm -f CMakeUserPresets.json
+          conan install . \
+            --profile:host=.conan/profile \
+            --profile:build=.conan/profile \
+            --output-folder=build/ci \
+            --build=missing \
+            -s build_type=Release
+          rm -f CMakeUserPresets.json
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: c-cpp
+          config: |
+            paths:
+              - src
+              - include
+            paths-ignore:
+              - tests/fuzz
+              - build
+
+      - run: cmake --preset ci
+      - run: cmake --build --preset ci
+
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:c-cpp"

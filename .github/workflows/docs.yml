@@ -72,6 +72,17 @@ jobs:
             -o with_tests=False
           rm -f CMakeUserPresets.json
 
+      - name: Download doxygen-awesome-css
+        run: |
+          DA_VER=v2.3.4
+          BASE="https://raw.githubusercontent.com/jothepro/doxygen-awesome-css/${DA_VER}"
+          curl -fsSL "$BASE/doxygen-awesome.css"                        -o docs/doxygen/doxygen-awesome.css
+          curl -fsSL "$BASE/doxygen-awesome-sidebar-only.css"           -o docs/doxygen/doxygen-awesome-sidebar-only.css
+          curl -fsSL "$BASE/doxygen-awesome-darkmode-toggle.js"         -o docs/doxygen/doxygen-awesome-darkmode-toggle.js
+          curl -fsSL "$BASE/doxygen-awesome-fragment-copy-button.js"    -o docs/doxygen/doxygen-awesome-fragment-copy-button.js
+          curl -fsSL "$BASE/doxygen-awesome-paragraph-link.js"          -o docs/doxygen/doxygen-awesome-paragraph-link.js
+          curl -fsSL "$BASE/doxygen-awesome-interactive-toc.js"         -o docs/doxygen/doxygen-awesome-interactive-toc.js
+
       - run: cmake --preset docs
       - run: cmake --build --preset docs --target docs
 

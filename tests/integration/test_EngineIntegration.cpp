@@ -6,6 +6,7 @@
 #include <QApplication>
 
 #include <gtest/gtest.h>
+#include <memory>
 
 class EngineTest : public ::testing::Test {
 protected:
@@ -13,11 +14,11 @@ protected:
         static int argc    = 0;
         static char** argv = nullptr;
         if (QApplication::instance() == nullptr) {
-            app_ = std::make_unique<QApplication>(argc, argv);
+            m_app = std::make_unique<QApplication>(argc, argv);
         }
     }
 
-    std::unique_ptr<QApplication> app_;
+    std::unique_ptr<QApplication> m_app;
 };
 
 TEST_F(EngineTest, EngineConstructsAndRuns) {

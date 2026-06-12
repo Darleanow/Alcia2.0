@@ -8,17 +8,17 @@
 using namespace alcia::game;
 
 TEST(World, StartRoomExists) {
-    World w;
+    const World w;
     ASSERT_NE(w.currentRoom(), nullptr);
     EXPECT_EQ(w.currentRoom()->m_id, "start");
 }
 
 TEST(World, MoveValidDirection) {
-    World w;
+    const World w;
     EXPECT_TRUE(w.move("north"));
 }
 
 TEST(World, MoveInvalidDirection) {
-    World w;
+    const World w;
     EXPECT_FALSE(w.move("west"));
 }

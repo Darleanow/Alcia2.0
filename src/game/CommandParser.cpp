@@ -8,6 +8,12 @@
 
 namespace alcia::game {
 
+namespace {
+constexpr std::array<std::string_view, 3> MOVE_PREFIXES = {"go ", "move ", "walk "};
+constexpr std::array<std::string_view, 10> DIRECTIONS   = {
+    "north", "south", "east", "west", "up", "down", "n", "s", "e", "w"};
+} // namespace
+
 Command parseCommand(const QString& input) {
     const QString TRIMMED = input.trimmed().toLower();
 
@@ -19,17 +25,15 @@ Command parseCommand(const QString& input) {
         return QuitCommand{};
     }
 
-    constexpr std::array<std::string_view, 3> MOVE_PREFIXES = {"go ", "move ", "walk "};
     for (const auto& prefix : MOVE_PREFIXES) {
-        if (TRIMMED.startsWith(QLatin1StringView(prefix))) {
-            return MoveCommand{TRIMMED.sliced(static_cast<qsizetype>(prefix.size()))};
+        const QString QT_PREFIX = QString::fromLatin1(prefix);
+        if (TRIMMED.startsWith(QT_PREFIX)) {
+            return MoveCommand{TRIMMED.sliced(QT_PREFIX.size())};
         }
     }
 
-    constexpr std::array<std::string_view, 10> DIRECTIONS = {
-        "north", "south", "east", "west", "up", "down", "n", "s", "e", "w"};
     for (const auto& dir : DIRECTIONS) {
-        if (TRIMMED == QLatin1StringView(dir)) {
+        if (TRIMMED == QString::fromLatin1(dir)) {
             return MoveCommand{TRIMMED};
         }
     }

@@ -118,7 +118,7 @@ jobs:
         run: |
           sudo apt-get update -q
           sudo apt-get install -y \
-            ninja-build ccache \
+            ninja-build ccache clang \
             libgl1-mesa-dev libvulkan-dev libxkbcommon-dev
 
       - uses: jurplel/install-qt-action@v4
@@ -150,8 +150,8 @@ jobs:
       - name: Create Conan profile
         run: |
           mkdir -p .conan
-          printf '[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=13\nos=Linux\n' > .conan/profile
-
+          CLANG_VER=$(clang --version | grep -oP '\d+' | head -1)
+          printf '[settings]\narch=x86_64\nbuild_type=Debug\ncompiler=clang\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=%s\nos=Linux\n' "$CLANG_VER" > .conan/profile
 
       - name: Conan install
         run: |
@@ -164,6 +164,6 @@ jobs:
             -s build_type=Debug
           rm -f CMakeUserPresets.json
 
-      - run: cmake --preset ${{ matrix.preset }}
+      - run: cmake --preset ${{ matrix.preset }} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
       - run: cmake --build --preset ${{ matrix.preset }} --parallel
       - run: ctest --preset ${{ matrix.preset }} --output-on-failure -j4

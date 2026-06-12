@@ -59,6 +59,12 @@ jobs:
 
       - run: pip install "conan>=2.0"
 
+      - name: Create Conan profile
+        run: |
+          mkdir -p .conan
+          printf '[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=13\nos=Linux\n' > .conan/profile
+
+
       - name: Conan install
         run: |
           rm -f CMakeUserPresets.json

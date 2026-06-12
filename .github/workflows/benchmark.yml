@@ -72,7 +72,7 @@ jobs:
 
       - name: Run benchmarks
         run: |
-          ./build/bench/tests/bench/AlciaBenchmarks \
+          ./build/bench/tests/AlciaBenchmarks \
             --benchmark_format=json \
             --benchmark_out=benchmark_result.json
 

@@ -65,13 +65,9 @@ jobs:
 
       - run: cmake --preset coverage
 
-      - name: CTest Dashboard submission
+      - name: Run tests with coverage
         env:
-          CTEST_SITE:          "github-actions"
-          CTEST_BUILD_NAME:    "Linux-GCC-${{ github.sha }}"
-          CTEST_DROP_SITE:     ${{ secrets.CDASH_HOST }}
-          CTEST_DROP_LOCATION: ${{ secrets.CDASH_PROJECT_PATH }}
-          QT_QPA_PLATFORM:     offscreen
+          QT_QPA_PLATFORM: offscreen
         run: |
           cd build/coverage
           ctest \
@@ -80,5 +76,15 @@ jobs:
             -D ExperimentalBuild \
             -D ExperimentalTest \
             -D ExperimentalCoverage \
-            -D ExperimentalSubmit \
             --output-on-failure
+
+      - name: Submit to CDash
+        if: ${{ secrets.CDASH_HOST != '' }}
+        env:
+          CTEST_SITE:          "github-actions"
+          CTEST_BUILD_NAME:    "Linux-GCC-${{ github.sha }}"
+          CTEST_DROP_SITE:     ${{ secrets.CDASH_HOST }}
+          CTEST_DROP_LOCATION: ${{ secrets.CDASH_PROJECT_PATH }}
+        run: |
+          cd build/coverage
+          ctest -D ExperimentalSubmit

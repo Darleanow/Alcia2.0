@@ -3,7 +3,8 @@
 
 #include "Alcia/game/CommandParser.hpp"
 
-#include <QStringList>
+#include <array>
+#include <string_view>
 
 namespace alcia::game {
 
@@ -18,17 +19,19 @@ Command parseCommand(const QString& input) {
         return QuitCommand{};
     }
 
-    const QStringList MOVE_PREFIXES = {"go ", "move ", "walk "};
+    constexpr std::array<std::string_view, 3> MOVE_PREFIXES = {"go ", "move ", "walk "};
     for (const auto& prefix : MOVE_PREFIXES) {
-        if (TRIMMED.startsWith(prefix)) {
+        if (TRIMMED.startsWith(QLatin1StringView(prefix))) {
             return MoveCommand{TRIMMED.sliced(prefix.size())};
         }
     }
 
-    const QStringList DIRECTIONS = {
+    constexpr std::array<std::string_view, 10> DIRECTIONS = {
         "north", "south", "east", "west", "up", "down", "n", "s", "e", "w"};
-    if (DIRECTIONS.contains(TRIMMED)) {
-        return MoveCommand{TRIMMED};
+    for (const auto& dir : DIRECTIONS) {
+        if (TRIMMED == QLatin1StringView(dir)) {
+            return MoveCommand{TRIMMED};
+        }
     }
 
     return UnknownCommand{input};

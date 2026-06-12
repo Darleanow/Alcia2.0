@@ -73,7 +73,8 @@ jobs:
           CTEST_DROP_LOCATION: ${{ secrets.CDASH_PROJECT_PATH }}
           QT_QPA_PLATFORM:     offscreen
         run: |
-          ctest --preset coverage \
+          cd build/coverage
+          ctest \
             -D ExperimentalStart \
             -D ExperimentalConfigure \
             -D ExperimentalBuild \

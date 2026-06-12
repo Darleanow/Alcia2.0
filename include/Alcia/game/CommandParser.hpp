@@ -11,12 +11,12 @@
 namespace alcia::game {
 
 struct MoveCommand {
-    QString direction;
+    QString m_direction;
 };
 struct LookCommand {};
 struct QuitCommand {};
 struct UnknownCommand {
-    QString raw;
+    QString m_raw;
 };
 
 using Command = std::variant<MoveCommand, LookCommand, QuitCommand, UnknownCommand>;

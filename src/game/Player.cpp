@@ -4,37 +4,38 @@
 #include "Alcia/game/Player.hpp"
 
 #include <algorithm>
+#include <utility>
 
 namespace alcia::game {
 
-Player::Player(QString name) : name_(std::move(name)) {
+Player::Player(QString name) : m_name(std::move(name)) {
 }
 
 const QString& Player::name() const {
-    return name_;
+    return m_name;
 }
 int Player::health() const {
-    return health_;
+    return m_health;
 }
 int Player::level() const {
-    return level_;
+    return m_level;
 }
 
 void Player::takeDamage(int amount) {
-    health_ = std::max(0, health_ - amount);
+    m_health = std::max(0, m_health - amount);
 }
 
 void Player::heal(int amount) {
-    health_ = std::min(maxHealth_, health_ + amount);
+    m_health = std::min(m_maxHealth, m_health + amount);
 }
 
 void Player::gainExperience(int xp) {
-    experience_ += xp;
-    constexpr int xpPerLevel = 100;
-    if (experience_ >= level_ * xpPerLevel) {
-        ++level_;
-        maxHealth_ += 10;
-        health_ = maxHealth_;
+    m_experience += xp;
+    constexpr int XP_PER_LEVEL = 100;
+    if (m_experience >= m_level * XP_PER_LEVEL) {
+        ++m_level;
+        m_maxHealth += 10;
+        m_health = m_maxHealth;
     }
 }
 

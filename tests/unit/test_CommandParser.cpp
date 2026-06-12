@@ -22,19 +22,19 @@ TEST(CommandParser, QuitCommand) {
 TEST(CommandParser, MoveCommandExplicit) {
     auto cmd = parseCommand("go north");
     ASSERT_TRUE(std::holds_alternative<MoveCommand>(cmd));
-    EXPECT_EQ(std::get<MoveCommand>(cmd).direction, "north");
+    EXPECT_EQ(std::get<MoveCommand>(cmd).m_direction, "north");
 }
 
 TEST(CommandParser, MoveCommandShorthand) {
     auto cmd = parseCommand("n");
     ASSERT_TRUE(std::holds_alternative<MoveCommand>(cmd));
-    EXPECT_EQ(std::get<MoveCommand>(cmd).direction, "n");
+    EXPECT_EQ(std::get<MoveCommand>(cmd).m_direction, "n");
 }
 
 TEST(CommandParser, UnknownCommand) {
     auto cmd = parseCommand("dance");
     ASSERT_TRUE(std::holds_alternative<UnknownCommand>(cmd));
-    EXPECT_EQ(std::get<UnknownCommand>(cmd).raw, "dance");
+    EXPECT_EQ(std::get<UnknownCommand>(cmd).m_raw, "dance");
 }
 
 TEST(CommandParser, EmptyInput) {

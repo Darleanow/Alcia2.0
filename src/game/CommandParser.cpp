@@ -8,24 +8,28 @@
 namespace alcia::game {
 
 Command parseCommand(const QString& input) {
-    const QString trimmed = input.trimmed().toLower();
+    const QString TRIMMED = input.trimmed().toLower();
 
-    if (trimmed == "look" || trimmed == "l")
+    if (TRIMMED == "look" || TRIMMED == "l") {
         return LookCommand{};
-
-    if (trimmed == "quit" || trimmed == "exit" || trimmed == "q")
-        return QuitCommand{};
-
-    const QStringList movePrefixes = {"go ", "move ", "walk "};
-    for (const auto& prefix : movePrefixes) {
-        if (trimmed.startsWith(prefix))
-            return MoveCommand{trimmed.sliced(prefix.size())};
     }
 
-    const QStringList directions = {
+    if (TRIMMED == "quit" || TRIMMED == "exit" || TRIMMED == "q") {
+        return QuitCommand{};
+    }
+
+    const QStringList MOVE_PREFIXES = {"go ", "move ", "walk "};
+    for (const auto& prefix : MOVE_PREFIXES) {
+        if (TRIMMED.startsWith(prefix)) {
+            return MoveCommand{TRIMMED.sliced(prefix.size())};
+        }
+    }
+
+    const QStringList DIRECTIONS = {
         "north", "south", "east", "west", "up", "down", "n", "s", "e", "w"};
-    if (directions.contains(trimmed))
-        return MoveCommand{trimmed};
+    if (DIRECTIONS.contains(TRIMMED)) {
+        return MoveCommand{TRIMMED};
+    }
 
     return UnknownCommand{input};
 }

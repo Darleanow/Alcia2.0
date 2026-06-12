@@ -29,11 +29,7 @@ bool World::move(const QString& direction) const {
     }
 
     auto it = std::ranges::find(room->m_exits, direction);
-    if (it == room->m_exits.end()) {
-        return false;
-    }
-
-    return true;
+    return it != room->m_exits.end();
 }
 
 } // namespace alcia::game

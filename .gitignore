@@ -27,8 +27,6 @@ coverage_html/
 .cache/
 CMakeLists.txt.user
 
-docs/doxygen/doxygen-awesome*.css
-docs/doxygen/doxygen-awesome*.js
 
 .DS_Store
 Thumbs.db

@@ -22,7 +22,7 @@ Command parseCommand(const QString& input) {
     constexpr std::array<std::string_view, 3> MOVE_PREFIXES = {"go ", "move ", "walk "};
     for (const auto& prefix : MOVE_PREFIXES) {
         if (TRIMMED.startsWith(QLatin1StringView(prefix))) {
-            return MoveCommand{TRIMMED.sliced(prefix.size())};
+            return MoveCommand{TRIMMED.sliced(static_cast<qsizetype>(prefix.size()))};
         }
     }
 

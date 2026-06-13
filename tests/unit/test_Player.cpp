@@ -8,7 +8,7 @@
 using namespace alcia::game;
 
 TEST(Player, InitialState) {
-    Player p("Hero");
+    const Player p("Hero");
     EXPECT_EQ(p.name(), "Hero");
     EXPECT_EQ(p.health(), 100);
     EXPECT_EQ(p.level(), 1);

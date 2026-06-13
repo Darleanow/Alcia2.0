@@ -10,9 +10,9 @@
 namespace alcia::game {
 
 struct Room {
-    QString id;
-    QString description;
-    std::vector<QString> exits;
+    QString m_id;
+    QString m_description;
+    std::vector<QString> m_exits;
 };
 
 class World {
@@ -20,11 +20,11 @@ public:
     World();
 
     [[nodiscard]] const Room* currentRoom() const;
-    bool move(const QString& direction);
+    [[nodiscard]] bool move(const QString& direction) const;
 
 private:
-    std::vector<Room> rooms_;
-    std::size_t currentIndex_{0};
+    std::vector<Room> m_rooms;
+    std::size_t m_currentIndex{0};
 };
 
 } // namespace alcia::game

@@ -4,14 +4,14 @@
 #include "Alcia/core/Engine.hpp"
 
 #include <QApplication>
+#include <QtCore/qnamespace.h>
 
 int main(int argc, char* argv[]) {
     QApplication::setHighDpiScaleFactorRoundingPolicy(
         Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 
-    // QT_SCALE_FACTOR env var overrides this at runtime for per-machine tuning
-    QApplication app(argc, argv);
-    app.setStyle("Fusion");
+    const QApplication app(argc, argv);
+    QApplication::setStyle("Fusion");
     QApplication::setApplicationName("Alcia");
     QApplication::setApplicationVersion("0.1.0");
 

@@ -22,6 +22,33 @@
   color: var(--primary-light-color);
 }
 
+/* Unified scrollbar across sidebar and main content */
+#side-nav,
+#nav-tree,
+#doc-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--separator-color) transparent;
+}
+
+#side-nav::-webkit-scrollbar,
+#nav-tree::-webkit-scrollbar,
+#doc-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+#side-nav::-webkit-scrollbar-track,
+#nav-tree::-webkit-scrollbar-track,
+#doc-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#side-nav::-webkit-scrollbar-thumb,
+#nav-tree::-webkit-scrollbar-thumb,
+#doc-content::-webkit-scrollbar-thumb {
+  background-color: var(--separator-color);
+  border-radius: 3px;
+}
+
 /* Make callout boxes look nicer */
 dl.note,
 dl.warning,

@@ -20,11 +20,11 @@ public:
     void gainExperience(int xp);
 
 private:
-    QString name_;
-    int health_     = 100;
-    int maxHealth_  = 100;
-    int level_      = 1;
-    int experience_ = 0;
+    QString m_name;
+    int m_health     = 100;
+    int m_maxHealth  = 100;
+    int m_level      = 1;
+    int m_experience = 0;
 };
 
 } // namespace alcia::game

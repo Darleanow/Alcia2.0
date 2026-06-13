@@ -10,10 +10,10 @@ namespace alcia::ui {
 /// Renders game state to stdout (terminal-based output).
 class ConsoleRenderer {
 public:
-    void printRoom(const QString& description);
-    void printMessage(const QString& message);
-    void printError(const QString& error);
-    void printPrompt();
+    static void printRoom(const QString& description);
+    static void printMessage(const QString& message);
+    static void printError(const QString& error);
+    static void printPrompt();
 };
 
 } // namespace alcia::ui

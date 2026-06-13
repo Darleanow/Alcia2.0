@@ -6,9 +6,8 @@
 #include <benchmark/benchmark.h>
 
 static void BM_ParseCommand(benchmark::State& state) {
-    alcia::game::CommandParser parser;
     for (auto _ : state) {
-        benchmark::DoNotOptimize(parser.parse("go north"));
+        benchmark::DoNotOptimize(alcia::game::parseCommand("go north"));
     }
 }
 BENCHMARK(BM_ParseCommand);

@@ -3,7 +3,7 @@ PROJECT_NUMBER         = @PROJECT_VERSION@
 PROJECT_BRIEF          = "A text-based RPG built with Qt 6"
 PROJECT_LOGO           = @CMAKE_SOURCE_DIR@/docs/assets/logo.png
 
-OUTPUT_DIRECTORY       = @CMAKE_BINARY_DIR@/docs
+OUTPUT_DIRECTORY       = @CMAKE_BINARY_DIR@
 CREATE_SUBDIRS         = YES
 ALLOW_UNICODE_NAMES    = YES
 OUTPUT_LANGUAGE        = English
@@ -39,11 +39,10 @@ HTML_EXTRA_FILES       = @CMAKE_SOURCE_DIR@/docs/doxygen/doxygen-awesome-darkmod
                          @CMAKE_SOURCE_DIR@/docs/doxygen/doxygen-awesome-paragraph-link.js \
                          @CMAKE_SOURCE_DIR@/docs/doxygen/doxygen-awesome-interactive-toc.js
 HTML_HEADER            = @CMAKE_SOURCE_DIR@/docs/doxygen/header.html
-HTML_FOOTER            = @CMAKE_SOURCE_DIR@/docs/doxygen/footer.html
 GENERATE_TREEVIEW      = YES
 FULL_SIDEBAR           = NO
 DISABLE_INDEX          = NO
-HTML_COLORSTYLE        = AUTO_LIGHT
+HTML_COLORSTYLE        = LIGHT
 
 HAVE_DOT               = YES
 DOT_NUM_THREADS        = 4

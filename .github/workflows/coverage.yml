@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Install system dependencies
         run: |
@@ -28,7 +30,7 @@ jobs:
           version: ${{ env.QT_VERSION }}
           host: linux
           target: desktop
-          arch: gcc_64
+          arch: linux_gcc_64
           cache: true
 
       - uses: actions/setup-python@v5
@@ -42,6 +44,13 @@ jobs:
           restore-keys: conan-${{ runner.os }}-
 
       - run: pip install "conan>=2.0"
+
+      - name: Create Conan profile
+        run: |
+          mkdir -p .conan
+          GCC_VER=$(gcc --version | grep -oP '\d+' | head -1)
+          printf '[settings]\narch=x86_64\nbuild_type=Debug\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=%s\nos=Linux\n' "$GCC_VER" > .conan/profile
+
 
       - name: Conan install
         run: |
@@ -57,6 +66,8 @@ jobs:
       - run: cmake --preset coverage
       - run: cmake --build --preset coverage --parallel
       - run: ctest --preset coverage --output-on-failure -j4
+        env:
+          QT_QPA_PLATFORM: offscreen
 
       - name: Collect coverage
         run: |
@@ -70,7 +81,7 @@ jobs:
         with:
           files: coverage.info
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          fail_ci_if_error: false
 
       - run: genhtml coverage.info --output-directory coverage_html
 

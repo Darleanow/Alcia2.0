@@ -6,6 +6,7 @@ function(alcia_enable_clang_tidy)
   endif()
   set(CMAKE_CXX_CLANG_TIDY
       "${CLANG_TIDY_EXE}" "--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy"
-      "--header-filter=${CMAKE_SOURCE_DIR}/include/.*"
+      "--header-filter=${CMAKE_SOURCE_DIR}/include/.*" "--extra-arg=-Wno-unknown-warning-option"
+      "--extra-arg-before=--driver-mode=g++"
       PARENT_SCOPE)
 endfunction()

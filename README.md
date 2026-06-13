@@ -2,10 +2,10 @@
 
 > A text-based RPG built with Qt 6.11 and modern C++23.
 
-[![CI](https://github.com/your-org/alcia/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/alcia/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/your-org/alcia/actions/workflows/codeql.yml/badge.svg)](https://github.com/your-org/alcia/actions/workflows/codeql.yml)
-[![codecov](https://codecov.io/gh/your-org/alcia/branch/main/graph/badge.svg)](https://codecov.io/gh/your-org/alcia)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://your-org.github.io/alcia)
+[![CI](https://github.com/Darleanow/Alcia2.0/actions/workflows/ci.yml/badge.svg)](https://github.com/Darleanow/Alcia2.0/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Darleanow/Alcia2.0/actions/workflows/codeql.yml/badge.svg)](https://github.com/Darleanow/Alcia2.0/actions/workflows/codeql.yml)
+[![codecov](https://codecov.io/gh/Darleanow/Alcia2.0/branch/main/graph/badge.svg)](https://codecov.io/gh/Darleanow/Alcia2.0)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://darleanow.github.io/Alcia2.0)
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@
 
 ```bash
 # 1. Clone
-git clone https://github.com/your-org/alcia && cd alcia
+git clone https://github.com/Darleanow/Alcia2.0 && cd Alcia2.0
 
 # 2. Fetch Doxygen Awesome theme assets
 bash scripts/fetch_doxygen_awesome.sh
@@ -59,7 +59,7 @@ ctest --preset debug --output-on-failure
 ## Project structure
 
 ```
-Alcia/
+Alcia2.0/
 ├── include/Alcia/        # Public headers
 │   ├── core/             # Engine
 │   ├── game/             # World, Player, CommandParser

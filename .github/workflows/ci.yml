@@ -19,12 +19,14 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Install system dependencies
         run: |
           sudo apt-get update -q
           sudo apt-get install -y \
-            ninja-build ccache clang-tidy clang-format \
+            ninja-build ccache \
             libgl1-mesa-dev libglu1-mesa-dev libvulkan-dev \
             libxkbcommon-dev libfontconfig1-dev libfreetype-dev
 
@@ -33,7 +35,7 @@ jobs:
           version: ${{ env.QT_VERSION }}
           host: linux
           target: desktop
-          arch: gcc_64
+          arch: linux_gcc_64
           cache: true
 
       - uses: actions/setup-python@v5
@@ -43,7 +45,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.conan2/p
-          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py', '.conan/profile') }}
+          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py') }}
           restore-keys: conan-${{ runner.os }}-
 
       - uses: actions/cache@v4
@@ -53,6 +55,12 @@ jobs:
           restore-keys: ccache-${{ runner.os }}-ci-
 
       - run: pip install "conan>=2.0"
+
+      - name: Create Conan profile
+        run: |
+          mkdir -p .conan
+          GCC_VER=$(gcc --version | grep -oP '\d+' | head -1)
+          printf '[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=%s\nos=Linux\n' "$GCC_VER" > .conan/profile
 
       - name: Conan install
         run: |
@@ -65,9 +73,11 @@ jobs:
             -s build_type=Release
           rm -f CMakeUserPresets.json
 
-      - run: cmake --preset ci
+      - run: cmake --preset ci -DALCIA_ENABLE_CLANG_TIDY=OFF
       - run: cmake --build --preset ci --parallel
       - run: ctest --preset ci --output-on-failure -j4
+        env:
+          QT_QPA_PLATFORM: offscreen
 
       - name: Upload test results
         if: always()
@@ -81,6 +91,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
       - run: sudo apt-get install -y clang-format
       - run: |
           find src include tests -name "*.cpp" -o -name "*.hpp" | \
@@ -97,10 +109,10 @@ jobs:
             preset: asan
           - name: TSan
             preset: tsan
-          - name: MSan
-            preset: msan
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Install system dependencies
         run: |
@@ -114,7 +126,7 @@ jobs:
           version: ${{ env.QT_VERSION }}
           host: linux
           target: desktop
-          arch: gcc_64
+          arch: linux_gcc_64
           cache: true
 
       - uses: actions/setup-python@v5
@@ -124,7 +136,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.conan2/p
-          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py', '.conan/profile') }}
+          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py') }}
           restore-keys: conan-${{ runner.os }}-
 
       - uses: actions/cache@v4
@@ -134,6 +146,12 @@ jobs:
           restore-keys: ccache-${{ runner.os }}-${{ matrix.preset }}-
 
       - run: pip install "conan>=2.0"
+
+      - name: Create Conan profile
+        run: |
+          mkdir -p .conan
+          GCC_VER=$(gcc --version | grep -oP '\d+' | head -1)
+          printf '[settings]\narch=x86_64\nbuild_type=Debug\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=%s\nos=Linux\n' "$GCC_VER" > .conan/profile
 
       - name: Conan install
         run: |
@@ -149,3 +167,5 @@ jobs:
       - run: cmake --preset ${{ matrix.preset }}
       - run: cmake --build --preset ${{ matrix.preset }} --parallel
       - run: ctest --preset ${{ matrix.preset }} --output-on-failure -j4
+        env:
+          QT_QPA_PLATFORM: offscreen

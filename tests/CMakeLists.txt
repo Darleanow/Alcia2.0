@@ -14,7 +14,7 @@ if(ALCIA_ENABLE_TESTS)
 
   add_executable(AlciaIntegrationTests integration/test_EngineIntegration.cpp)
   target_link_libraries(AlciaIntegrationTests PRIVATE AlciaLib GTest::gtest_main Qt6::Core
-                                                      Qt6::Test)
+                                                      Qt6::Widgets Qt6::Test)
   alcia_set_warnings(AlciaIntegrationTests)
   gtest_discover_tests(
     AlciaIntegrationTests

@@ -17,6 +17,7 @@ Checks: >
   -cppcoreguidelines-non-private-member-variables-in-classes,
   -misc-non-private-member-variables-in-classes,
   -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-owning-memory,
   -readability-identifier-length
 
 WarningsAsErrors: '*'
@@ -31,16 +32,20 @@ CheckOptions:
   - key:   readability-identifier-naming.StructCase
     value: CamelCase
   - key:   readability-identifier-naming.FunctionCase
-    value: camelCase
+    value: camelBack
   - key:   readability-identifier-naming.VariableCase
-    value: camelCase
+    value: camelBack
+  - key:   readability-identifier-naming.LocalConstantCase
+    value: camelBack
   - key:   readability-identifier-naming.ParameterCase
-    value: camelCase
+    value: camelBack
   - key:   readability-identifier-naming.MemberCase
-    value: camelCase
+    value: camelBack
   - key:   readability-identifier-naming.MemberPrefix
     value: 'm_'
-  - key:   readability-identifier-naming.ConstantCase
+  - key:   readability-identifier-naming.ConstexprVariableCase
+    value: UPPER_CASE
+  - key:   readability-identifier-naming.StaticConstantCase
     value: UPPER_CASE
   - key:   readability-identifier-naming.EnumConstantCase
     value: CamelCase

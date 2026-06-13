@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Install system dependencies
         run: |
@@ -36,7 +38,7 @@ jobs:
           version: ${{ env.QT_VERSION }}
           host: linux
           target: desktop
-          arch: gcc_64
+          arch: linux_gcc_64
           cache: true
 
       - uses: actions/setup-python@v5
@@ -51,6 +53,13 @@ jobs:
 
       - run: pip install "conan>=2.0"
 
+      - name: Create Conan profile
+        run: |
+          mkdir -p .conan
+          GCC_VER=$(gcc --version | grep -oP '\d+' | head -1)
+          printf '[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=23\ncompiler.libcxx=libstdc++11\ncompiler.version=%s\nos=Linux\n' "$GCC_VER" > .conan/profile
+
+
       - name: Conan install
         run: |
           rm -f CMakeUserPresets.json
@@ -59,8 +68,23 @@ jobs:
             --profile:build=.conan/profile \
             --output-folder=build/docs \
             --build=missing \
-            -s build_type=Debug
+            -s build_type=Release \
+            -o with_tests=False
           rm -f CMakeUserPresets.json
+
+      - name: Download doxygen-awesome-css
+        run: |
+          DA_VER=v2.3.4
+          BASE="https://raw.githubusercontent.com/jothepro/doxygen-awesome-css/${DA_VER}"
+          curl -fsSL "$BASE/doxygen-awesome.css"                        -o docs/doxygen/doxygen-awesome.css
+          curl -fsSL "$BASE/doxygen-awesome-sidebar-only.css"           -o docs/doxygen/doxygen-awesome-sidebar-only.css
+          curl -fsSL "$BASE/doxygen-awesome-darkmode-toggle.js"         -o docs/doxygen/doxygen-awesome-darkmode-toggle.js
+          curl -fsSL "$BASE/doxygen-awesome-fragment-copy-button.js"    -o docs/doxygen/doxygen-awesome-fragment-copy-button.js
+          curl -fsSL "$BASE/doxygen-awesome-paragraph-link.js"          -o docs/doxygen/doxygen-awesome-paragraph-link.js
+          curl -fsSL "$BASE/doxygen-awesome-interactive-toc.js"         -o docs/doxygen/doxygen-awesome-interactive-toc.js
+          # Generate default Doxygen header then patch it for doxygen-awesome
+          doxygen -w html docs/doxygen/header.html /dev/null /dev/null
+          python3 scripts/patch_doxygen_header.py docs/doxygen/header.html
 
       - run: cmake --preset docs
       - run: cmake --build --preset docs --target docs
